@@ -1,0 +1,46 @@
+{% extends 'shared/base.html' %}
+
+{% block content %}
+
+    {% for match in matches %}
+        <div class="card text-center">
+            <div class="card-header">
+                {{ match.Team1.TeamName }} vs {{ match.Team2.TeamName }}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">
+                    <img alt="{{ match.Team1.TeamName }}" src="{{ match.Team1.TeamIconUrl }}" width="50">
+                    {% if match.MatchIsFinished %}
+                        {% for item in match.MatchResults %}
+                            {% if item.ResultName == 'Endergebnis' %}
+                                {{ item.PointsTeam1 }} : {{ item.PointsTeam2 }}
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        - : -
+                    {% endif %}
+                    <img alt="{{ match.Team2.TeamName }}" src="{{ match.Team2.TeamIconUrl }}" width="50">
+                </h5>
+                {% if match.MatchIsFinished %}
+                    {% if match.Goals %}
+                        <h5>Goals</h5>
+                        {% for goal in match.Goals %}
+                            <p>
+                                {{ goal.MatchMinute }} minute - {{ goal.GoalGetterName }}
+                            </p>
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div class="card-footer text-muted">
+                {% if match.MatchIsFinished %}
+                    <p class="card-text">The match is finished.</p>
+                {% else %}
+                    <p class="card-text">Match date|time: {{ match.MatchDateTime }}</p>
+                {% endif %}
+            </div>
+        </div>
+        <br>
+    {% endfor %}
+
+{% endblock %}

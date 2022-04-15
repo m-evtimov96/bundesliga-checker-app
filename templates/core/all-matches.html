@@ -1,0 +1,37 @@
+{% extends 'shared/base.html' %}
+
+{% block content %}
+
+    <h3>All matches in Fußball-Bundesliga 2021/2022</h3>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Date|Time</th>
+            <th scope="col">Team1</th>
+            <th scope="col">Team2</th>
+            <th scope="col">Result</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for match in matches %}
+            <tr class="bg-white">
+                <td>{{ match.MatchDateTime }}</td>
+                <td><img alt="{{ match.Team1.TeamName }}" src="{{ match.Team1.TeamIconUrl }}"
+                         width="40" height="40"> {{ match.Team1.TeamName }}</td>
+                <td><img alt="{{ match.Team2.TeamName }}" src="{{ match.Team2.TeamIconUrl }}"
+                         width="40"> {{ match.Team2.TeamName }}</td>
+                {% if match.MatchIsFinished %}
+                    {% for item in match.MatchResults %}
+                        {% if item.ResultName == 'Endergebnis' %}
+                            <td>{{ item.PointsTeam1 }} : {{ item.PointsTeam2 }}</td>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <td>Not played yet</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

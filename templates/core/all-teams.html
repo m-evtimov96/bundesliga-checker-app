@@ -1,0 +1,35 @@
+{% extends 'shared/base.html' %}
+
+{% block content %}
+
+    <table class="table table-light table-hover">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">Icon</th>
+            <th scope="col">Name</th>
+            <th scope="col">Points</th>
+            <th scope="col">Goals</th>
+            <th scope="col">Won-Lost-Draw</th>
+            <th scope="col">Win-Loss ratio</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for team in teams %}
+            <tr>
+                {#            <tr data-href="{% url 'team' name=team.Name %}">#}
+                <td><img alt="{{ team.Name }}" src="{{ team.Icon }}" width="50" height="50"></td>
+                <td>{{ team.Name }}</td>
+                <td>{{ team.Points }}</td>
+                <td>{{ team.Goals }}</td>
+                <td>{{ team.WonLostDraw }}</td>
+                <td>{{ team.WinLossRatio }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{#    <script src="/static/js/custom.js"></script>#}
+
+{% endblock %}
+
+
