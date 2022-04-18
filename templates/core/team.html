@@ -1,0 +1,163 @@
+{% extends 'shared/base.html' %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        <img alt="{{ team.ShortName }}" src="{{ team.TeamIconUrl }}" width="250" height="250">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <p class="mb-0" style="font-weight: bold;">{{ team.TeamName }}</p>
+                            </div>
+                            <div class="col-sm-3">
+                                <p class="mb-0">Points</p>
+                            </div>
+                            <div class="col-sm-3">
+                                <p class="text-muted mb-0">{{ team.Points }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Goals</p>
+                            </div>
+                            <div class="col-sm-3">
+                                <p class="text-muted mb-0">{{ team.Goals }}</p>
+                            </div>
+                            <div class="col-sm-3">
+                                <p class="mb-0">Opponent goals</p>
+                            </div>
+                            <div class="col-sm-3">
+                                <p class="text-muted mb-0">{{ team.OpponentGoals }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Matches played</p>
+                            </div>
+                            <div class="col-sm-3">
+                                <p class="text-muted mb-0">{{ team.Matches }}</p>
+                            </div>
+                            <div class="col-sm-3">
+                                <p class="mb-0">Draws</p>
+                            </div>
+                            <div class="col-sm-3">
+                                <p class="text-muted mb-0">{{ team.Draw }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Wins</p>
+                            </div>
+                            <div class="col-sm-3">
+                                <p class="text-muted mb-0">{{ team.Won }}</p>
+                            </div>
+                            <div class="col-sm-3">
+                                <p class="mb-0">Losses</p>
+                            </div>
+                            <div class="col-sm-3">
+                                <p class="text-muted mb-0">{{ team.Lost }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Goals</p>
+                            </div>
+                            <div class="col-sm-3">
+                                <p class="text-muted mb-0">{{ team.Goals }}</p>
+                            </div>
+                            <div class="col-sm-3">
+                                <p class="mb-0">Opponent goals</p>
+                            </div>
+                            <div class="col-sm-3">
+                                <p class="text-muted mb-0">{{ team.OpponentGoals }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <h4 class="text-center">Finished matches</h4>
+                <div class="card mb-4">
+                    <table class="table">
+                        <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Date|Time</th>
+                            <th scope="col"></th>
+                            <th scope="col">Result</th>
+                            <th scope="col"></th>
+                            <th scope="col">Opponent</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for match in finished_matches %}
+                            <tr>
+                                <td>{{ match.date_time }}</td>
+                                <td>
+                                    <img alt="{{ team.ShortName }}" src="{{ team.TeamIconUrl }}" width="40" height="40">
+                                </td>
+                                <td class="text-center">{{ match.result }}</td>
+                                <td>
+                                    <img alt="{{ match.opponent }}" src="{{ match.opponent_icon }}" width="40"
+                                         height="40">
+                                </td>
+                                <td>{{ match.opponent }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h4 class="text-center">Upcoming matches</h4>
+                <div class="card mb-4">
+                    <table class="table">
+                        <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Date|Time</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col">Opponent</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for match in upcoming_matches %}
+                            <tr>
+                                <td>{{ match.date_time }}</td>
+                                <td>
+                                    <img alt="{{ team.ShortName }}" src="{{ team.TeamIconUrl }}" width="40" height="40">
+                                </td>
+                                <td class="text-center">VS</td>
+                                <td>
+                                    <img alt="{{ match.opponent }}" src="{{ match.opponent_icon }}" width="40"
+                                         height="40">
+                                </td>
+                                <td>{{ match.opponent }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

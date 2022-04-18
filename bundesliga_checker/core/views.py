@@ -49,6 +49,7 @@ def all_teams(request):
 
         current_team['Icon'] = team['TeamIconUrl']
         current_team['Name'] = team['TeamName']
+        current_team['ShortName'] = team['ShortName']
         current_team['Points'] = team['Points']
         current_team['Goals'] = team['Goals']
         current_team['WonLostDraw'] = won_lost_draw
@@ -61,3 +62,49 @@ def all_teams(request):
     }
 
     return render(request, 'core/all-teams.html', context)
+
+
+def team_detail(request, team_short_name):
+
+    teams_data = requests.get('https://www.openligadb.de/api/getbltable/bl1/2021').json()
+
+    team = [team for team in teams_data if team['ShortName'] == team_short_name][0]
+
+    all_matches_data = requests.get('https://www.openligadb.de/api/getmatchdata/bl1/2021').json()
+
+    finished_matches = []
+    upcoming_matches = []
+
+    for match in all_matches_data:
+        opponent = None
+        is_finished = match['MatchIsFinished']
+
+        if match['Team1']['ShortName'] == team_short_name:
+            opponent = match['Team2']['TeamName']
+            opponent_icon = match['Team2']['TeamIconUrl']
+            if is_finished:
+                result = f"{match['MatchResults'][0]['PointsTeam1']} : {match['MatchResults'][0]['PointsTeam2']}"
+
+        elif match['Team2']['ShortName'] == team_short_name:
+            opponent = match['Team1']['TeamName']
+            opponent_icon = match['Team1']['TeamIconUrl']
+            if is_finished:
+                result = f"{match['MatchResults'][0]['PointsTeam2']} : {match['MatchResults'][0]['PointsTeam1']}"
+
+        if opponent:
+            match_time = match['MatchDateTime']
+            match_to_save = {'opponent': opponent, 'opponent_icon': opponent_icon, 'result': result,
+                             'finished': is_finished, 'date_time': match_time}
+
+            if match_to_save['finished']:
+                finished_matches.append(match_to_save)
+            else:
+                upcoming_matches.append(match_to_save)
+
+    context = {
+        'team': team,
+        'finished_matches': finished_matches,
+        'upcoming_matches': upcoming_matches,
+    }
+
+    return render(request, 'core/team.html', context)

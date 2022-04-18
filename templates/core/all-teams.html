@@ -15,8 +15,7 @@
         </thead>
         <tbody>
         {% for team in teams %}
-            <tr>
-                {#            <tr data-href="{% url 'team' name=team.Name %}">#}
+            <tr data-href="{% url 'team' team_short_name=team.ShortName %}">
                 <td><img alt="{{ team.Name }}" src="{{ team.Icon }}" width="50" height="50"></td>
                 <td>{{ team.Name }}</td>
                 <td>{{ team.Points }}</td>
@@ -28,7 +27,7 @@
         </tbody>
     </table>
 
-{#    <script src="/static/js/custom.js"></script>#}
+    <script src="/static/js/custom.js"></script>
 
 {% endblock %}
 
